@@ -19,8 +19,7 @@
                             <div class="card-body p-5">
                                 <h2 class="text-center mb-5">Create an Account</h2>
 
-                                <form>
-
+                                <form action="register-process.php" method="POST">
                                     <div class="form-outline mb-3">
                                         <label class="form-label" for="form3Example1cg">Your Name</label>
                                         <input type="text" id="form3Example1cg" class="form-control form-control-lg" placeholder="Enter Your Name"/>
@@ -38,7 +37,7 @@
                                     </div>
 
                                     <div class="form-outline mb-3">
-                                        <label class="form-label" for="form3Example4cdg">Repeat your password</label>
+                                        <label class="form-label" for="password">Repeat your password</label>
                                         <input type="password" id="form3Example4cdg"
                                             class="form-control form-control-lg" placeholder="Type it Again"/>
                                     </div>
@@ -52,7 +51,7 @@
                                     </div>
 
                                     <div class="d-flex justify-content-center">
-                                        <button type="button" class="btn btn-dark btn-block btn-lg rounded-0" style="width:50%">Register</button>
+                                        <button type="submit" class="btn btn-dark btn-block btn-lg rounded-0" style="width:50%">Register</button>
                                     </div>
                                     <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="login.php" class="fw-bold text-body"><u class="btn btn-outline-dark rounded-0">Login here</u></a></p>
                                 </form>
