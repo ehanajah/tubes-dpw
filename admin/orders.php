@@ -1,11 +1,12 @@
 <?php
+session_start();
 
-include("static-data.php");
-include("include/functions.php");
+include("../include/data.php");
+include("../include/functions.php");
 include("include/header.php");
 
-// // Memeriksa peran admin dan mengalihkan jika bukan admin
-// checkAdminRole();
+// Memeriksa peran admin dan mengalihkan jika bukan admin
+checkAdminRole();
 
 ?>
 
@@ -15,32 +16,41 @@ include("include/header.php");
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">Id Pemesanan </th>
-                        <th scope="col">Pengguna</th>
-                        <th scope="col">Total Harga</th>
-                        <th scope="col">Tanggal</th>
-                        <th scope="col">Status Order</th>
-                        <th scope="col">Status Pembayaran</th>
+                        <th scope="col">Order Id</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Total Price</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Order Status</th>
+                        <th scope="col">Payment Status</th>
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
-                    <?php foreach ($orders as $order) : ?>
+                    <?php if ($orders != null) : ?>
+                        <?php foreach ($orders as $order) : ?>
+                            <?php 
+                                
+                                ?>
+                            <tr>
+                                <th scope="row"><?= $order['order_id']; ?></th>
+                                <td>
+                                    <?php $user = getUserById($order['user_id'], $users); ?>
+                                    <?= $user['username']; ?>
+                                </td>
+                                <td>
+                                    <?php $total_amount = $order['total_amount']; ?>
+                                    Rp <?= number_format($total_amount, 0, ',', '.'); ?>
+                                </td>
+                                <td><?= $order['order_date']; ?></td>
+                                <td><?= orderStatus($order); ?></td>
+                                <td><?= $order['payment_status']; ?></td>
+                                <td><a class="text-decoration-none rounded-0 badge text-bg-primary" href="order-detail.php?id=<?= $order['order_id']; ?>">Detail</a></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else : ?>
                         <tr>
-                            <th scope="row"><?= $order['order_id']; ?></th>
-                            <td>
-                                <?php $user = getUserById($order['user_id'], $users); ?>
-                                <?= $user['username']; ?>
-                            </td>
-                            <td>
-                                <?php $total_amount = $order['total_amount']; ?>
-                                Rp <?= number_format($total_amount, 0, ',', '.'); ?>
-                            </td>
-                            <td><?= $order['order_date']; ?></td>
-                            <td><?= $order['order_status']; ?></td>
-                            <td><?= $order['payment_status']; ?></td>
-                            <td><a class="text-decoration-none rounded-0 badge text-bg-primary" href="order-detail.php?id=<?= $order['order_id']; ?>">Detail</a></td>
+                            <td colspan="10" class="text-center">Tidak ada data</td>
                         </tr>
-                    <?php endforeach; ?>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>

@@ -1,29 +1,40 @@
 <?php
 
-include("admin/static-data.php");
-include("admin/include/functions.php");
-
+include("include/data.php");
+include("include/functions.php");
 
 session_start();
 
 $email = $_POST['email'];
 $password = $_POST['password'];
 
-$user = login($email, $password, $users);
+// Cari data pengguna berdasarkan email dari database
+$user = getUserByEmail($email, $users);
 
 if ($user !== null) {
-    $_SESSION["username"] = $user["username"];
-    $_SESSION["user_id"] = $user["user_id"];
-    $_SESSION["role"] = $user["role"];
+    // Bandingkan password yang diinputkan dengan password yang telah dienkripsi di database
+    if (password_verify($password, $user['password'])) {
+        $_SESSION["username"] = $user["username"];
+        $_SESSION["user_id"] = $user["user_id"];
+        $_SESSION["role"] = $user["role"];
 
-    if ($_SESSION["role"] == "admin") {
-        header("Location: admin/index.php");
-        exit();
+        if ($_SESSION["role"] == "admin") {
+            header("Location: admin/index.php");
+            exit();
+        } else {
+            header("Location: index.php");
+            exit();
+        }
     } else {
-        header("Location: index.php");
+        // Jika password tidak sesuai, kembali ke halaman login
+        $_SESSION['login_error'] = "Email or password is incorrect.";
+        header("Location: login.php");
         exit();
     }
 } else {
+    // Jika pengguna tidak ditemukan, kembali ke halaman login
+    $_SESSION['login_error'] = "Email or password is incorrect.";
     header("Location: login.php");
     exit();
 }
+?>

@@ -1,7 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
 
   const confirmButton = document.getElementById('confirmButton');
-  confirmButton.addEventListener('click', function () {
+  confirmButton.addEventListener('click', function (e) {
+    e.preventDefault();
+
     const receiptName = document.getElementById('username').value;
     const address = document.getElementById('address').value;
     const region = document.getElementById('provinsi').value;
@@ -27,6 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
             'Let\'s Wait Your Order Came Into Your House.',
             'success'
           )
+          paymentForm.submit();
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           Swal.fire(
             'Cancelled',
@@ -39,14 +42,20 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
-$('.nav-scroll').on('click', function(e){
- 
-  var tujuan = $(this).attr('href');
-  var elemenTujuan = $(tujuan);
+// Scroll navbar
+$('.nav-scroll').on('click', function (e) {
+
+  var target = $(this).attr('href');
+  var targetElement = $(target);
 
   $('html').animate({
-      scrollTop: elemenTujuan.offset().top - 20
-  }, 600);
+    scrollTop: targetElement.offset().top
+  });
 
   e.preventDefault();
 });
+
+function goBack() {
+  window.history.back();
+}
+
